@@ -21,35 +21,37 @@ while True:
     opcao = input(menu)
 
     if opcao == "d":
-        print("Deposito")
         valor = float(input("Digite o valor a ser depositado:  "))
         if valor > 0:
             saldo += valor
-            print(f"Depósito de R$ {valor:.2f} realizado com sucesso")
+            extrato += f"Depósito: R$ {valor:.2f}\n"
         else:
             print("Valor de depósito inválido.")
 
     elif opcao == "s":
-        print("Saque")
         valor = float(input("Digite o valor a ser sacado: "))
-        if LIMITE_SAQUES > 0 and valor <= limite:
-            if saldo >= valor:
-                saldo -= valor
-                extrato.append(valor)
-                LIMITE_SAQUES -= 1
-                print(f"Saque de R$ {valor:.2f} realizado com sucesso")
-            else:
-                print("Saldo insuficiente para o saque.")
-        elif LIMITE_SAQUES == 0:
-            print("Limite diário de saques atingido.")
+        excedeu_saldo = valor > saldo
+        excedeu_limite = valor > limite
+        excedeu_saques = numero_saques >= LIMITE_SAQUES
+
+        if excedeu_saldo:
+            print("Operação falhou! Você não tem saldo suficiente.")
+        elif excedeu_limite:
+            print("Operação falhou! O valor do saque excede o limite.")
+        elif excedeu_saques:
+            print("Operação falhou! Número máximo de saques excedido.")
+        elif valor > 0:
+            saldo -= valor
+            extrato += f"Saque: R$ {valor:.2f}\n"
+            numero_saques += 1
         else:
-            print("Valor de saque inválido.")
+            print("Operação falhou! O valor informado é inválido.")
 
     elif opcao == "e":
-        print("--- Extrato ---")
-        for saque in extrato:
-            print(f"Saque de R$ {saque:.2f}")
-        print(f"Saldo atual: R$ {saldo:.2f}")
+        print("\n--- Extrato ---")
+        print("Não foram realizados movimentações." if not extrato else extrato)
+        print(f"\nSaldo: R$ {saldo:.2f}")
+        print("----------------")
 
     elif opcao == "q":
         print("Saindo do sistema. Obrigado!")
