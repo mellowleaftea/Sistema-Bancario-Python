@@ -10,3 +10,6 @@ Os valores devem ser exibidos utilizando o formato R$ xxx.xx
 #### Part 2
 Separar as funções existentes de saque, depósito e extrato em funções.
 Criar duas novas funções: cadastrar usuário (cliente) e cadastrar conta bancária.
+
+#### Part 3
+Modelando o Sistema Bancário em POO
